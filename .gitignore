@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+.venv-sft/
+
+# Local env files
+.env
+.env.local
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.coverage
+.coverage.*
+htmlcov/
+pip-wheel-metadata/
+
+# Runtime data
+workspace_data/
+*.log
+*.out
+*.err
+*.pid
+
+# Training outputs
+outputs/
+checkpoints/
+
+# Frontend / JS tooling
+node_modules/
