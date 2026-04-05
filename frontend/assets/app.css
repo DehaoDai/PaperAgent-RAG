@@ -1,0 +1,263 @@
+:root {
+  --bg: #f4efe6;
+  --panel: rgba(255, 250, 242, 0.92);
+  --panel-strong: #fff8ee;
+  --ink: #1f2b24;
+  --muted: #66736d;
+  --line: rgba(31, 43, 36, 0.12);
+  --accent: #0f766e;
+  --accent-2: #c96f3b;
+  --shadow: 0 24px 60px rgba(65, 47, 28, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(201, 111, 59, 0.18), transparent 22rem),
+    radial-gradient(circle at right 20%, rgba(15, 118, 110, 0.18), transparent 20rem),
+    linear-gradient(180deg, #f6f0e6 0%, #efe6da 100%);
+}
+
+.shell {
+  width: min(1200px, calc(100% - 32px));
+  margin: 32px auto 48px;
+}
+
+.hero {
+  padding: 28px 28px 20px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+h1, h2 {
+  margin: 0;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: clamp(32px, 6vw, 56px);
+  line-height: 0.95;
+  max-width: 8ch;
+}
+
+.lede {
+  margin: 16px 0 0;
+  max-width: 58ch;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 248, 238, 0.75);
+  border: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.badge.muted {
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.panel-wide {
+  grid-column: 1 / -1;
+}
+
+.panel-head p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+}
+
+.form label span {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 43, 36, 0.16);
+  background: var(--panel-strong);
+  padding: 14px 16px;
+  color: var(--ink);
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, var(--accent), #166534);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.inline-check {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.inline-check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.triple {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.file-drop input[type="file"] {
+  padding: 12px;
+  background: rgba(201, 111, 59, 0.06);
+}
+
+.answer-box,
+.debug-box {
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.answer-box {
+  min-height: 120px;
+  padding: 18px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.answer-box.empty {
+  color: var(--muted);
+}
+
+.debug-box {
+  margin-top: 14px;
+  padding: 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SFMono-Regular", "Menlo", monospace;
+  font-size: 12px;
+  color: #25403a;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.evidence-card {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.evidence-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #f0eadf;
+}
+
+.evidence-meta {
+  padding: 12px 14px 14px;
+}
+
+.evidence-meta strong {
+  display: block;
+  font-size: 14px;
+}
+
+.evidence-meta p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .triple {
+    grid-template-columns: 1fr;
+  }
+}

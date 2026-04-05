@@ -1,0 +1,257 @@
+Metadata-Version: 2.4
+Name: agent-rag
+Version: 0.1.0
+Summary: Multimodal RAG MVP scaffold for paper question answering.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: byaldi>=0.0.5
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: openai>=1.0.0
+Requires-Dist: pymupdf>=1.24.0
+Requires-Dist: pydantic>=2.8.0
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: python-multipart>=0.0.9
+Requires-Dist: uvicorn>=0.30.0
+
+# Agent_RAG
+
+Multimodal RAG for paper-style PDF question answering.
+
+This repository includes:
+
+- PDF to page-image ingestion
+- visual retrieval with ColQwen2 + Byaldi
+- multimodal reranking with MonoQwen2-VL
+- answer generation with Qwen2.5-VL
+- PDFVQA import, synthetic QA generation, and judged evaluation
+- first-pass SFT data export and LLaMA-Factory training preparation
+
+## What You Get
+
+- A FastAPI backend
+- A simple web console for upload, indexing, QA, and evaluation
+- A local JSON-backed metadata store
+- Scripts for exporting SFT data and preparing training runs
+
+## Project Layout
+
+```text
+src/agent_rag/
+  api/              HTTP routes
+  pipelines/        QA orchestration
+  services/         ingest / index / retrieve / rerank / generate / evaluate / storage
+  data/             data models
+frontend/           lightweight web UI
+scripts/            local utilities
+configs/            training config templates
+docs/               roadmap and SFT plan
+```
+
+## Requirements
+
+- Python 3.11+
+- macOS / Linux recommended
+- enough disk space for model downloads
+
+For the main app:
+
+- `PyMuPDF`
+- `Byaldi`
+- `Qwen2.5-VL` model downloads
+
+For training:
+
+- a separate SFT environment
+- enough memory for LoRA fine-tuning
+
+## Quick Start
+
+### 1. Clone and enter the repo
+
+```bash
+git clone <your-repo-url>
+cd Agent_RAG
+```
+
+### 2. Create the app environment
+
+```bash
+make setup-app
+```
+
+Or manually:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -e .
+```
+
+### 3. Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Set values as needed:
+
+- `OPENAI_API_KEY` for judged evaluation
+- `HF_TOKEN` for faster Hugging Face downloads
+
+`.env` is loaded automatically at startup.
+
+### 4. Start the app
+
+```bash
+make run
+```
+
+Or manually:
+
+```bash
+source .venv/bin/activate
+uvicorn agent_rag.main:app --reload
+```
+
+Open:
+
+- Web console: `http://127.0.0.1:8000/`
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- Health check: `http://127.0.0.1:8000/health`
+
+## Main Workflow
+
+### Local PDF workflow
+
+1. Upload a paper in the web UI
+2. Build the retrieval index
+3. Ask questions
+
+### PDFVQA workflow
+
+1. Import a slice from `gigant/pdfvqa`
+2. Generate synthetic QA pairs
+3. Build the retrieval index
+4. Run questions or evaluation
+
+## Current Endpoints
+
+- `POST /documents/register`
+- `POST /documents/upload`
+- `GET /documents`
+- `POST /datasets/pdfvqa/import`
+- `POST /datasets/pdfvqa/synthesize-qa`
+- `POST /indices/build`
+- `POST /query`
+- `POST /evaluations/pdfvqa/run`
+
+## Evaluation
+
+The evaluation flow is:
+
+1. mRAG generates answers
+2. an OpenAI judge model compares predicted answers against GT answers
+3. each example gets a `1..5` score
+4. the score is normalized with `(score - 1) / 4`
+5. results are aggregated by:
+   - QA-level mean
+   - page-balanced mean
+   - weighted final score
+
+To use judged evaluation, set:
+
+```bash
+OPENAI_API_KEY=...
+```
+
+## SFT Preparation
+
+The repo includes a first-pass SFT pipeline for Qwen2.5-VL.
+
+See:
+
+- [docs/SFT_PLAN.md](docs/SFT_PLAN.md)
+- [scripts/export_sft_dataset.py](scripts/export_sft_dataset.py)
+- [scripts/split_sft_dataset.py](scripts/split_sft_dataset.py)
+- [scripts/launch_sft.py](scripts/launch_sft.py)
+- [configs/sft/qwen2_5_vl_pdfqa.yaml](configs/sft/qwen2_5_vl_pdfqa.yaml)
+
+### Export SFT data
+
+```bash
+make export-sft
+```
+
+This exports accepted QA pairs and filters high-risk layout questions.
+
+### Split train/eval
+
+```bash
+make split-sft
+```
+
+### Prepare a training run package
+
+```bash
+make prepare-sft
+```
+
+This creates a run package under:
+
+```text
+workspace_data/sft_runs/<run_name>/
+```
+
+with:
+
+- `agent_rag_train.json`
+- `dataset_info.json`
+- `llamafactory_train.yaml`
+
+## Training Environment
+
+Use a separate environment for training so retrieval dependencies and training dependencies do not conflict.
+
+### Create the SFT environment
+
+```bash
+make setup-sft
+```
+
+Or manually:
+
+```bash
+python3 -m venv .venv-sft
+source .venv-sft/bin/activate
+pip install --upgrade pip
+pip install "llamafactory>=0.9.0"
+```
+
+### Start a prepared training run
+
+```bash
+source .venv-sft/bin/activate
+llamafactory-cli train workspace_data/sft_runs/qwen2_5_vl_first_run/llamafactory_train.yaml
+```
+
+## Make Targets
+
+- `make setup-app`
+- `make setup-sft`
+- `make run`
+- `make check`
+- `make export-sft`
+- `make split-sft`
+- `make prepare-sft`
+
+## Notes
+
+- The first model downloads can take time.
+- On Apple Silicon, Qwen2.5-VL generation may run on CPU for stability.
+- Keep `.venv` for the app and `.venv-sft` for training.
+
+## Roadmap
+
+- [docs/ROADMAP.md](docs/ROADMAP.md)
+- [docs/SFT_PLAN.md](docs/SFT_PLAN.md)

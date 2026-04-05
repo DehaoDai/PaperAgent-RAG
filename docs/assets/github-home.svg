@@ -1,0 +1,80 @@
+<svg width="1440" height="900" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="160" y1="80" x2="1260" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7F1E7"/>
+      <stop offset="1" stop-color="#EEE3D3"/>
+    </linearGradient>
+    <linearGradient id="card" x1="200" y1="180" x2="1210" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F1"/>
+      <stop offset="1" stop-color="#FBF3E9"/>
+    </linearGradient>
+    <linearGradient id="button" x1="0" y1="0" x2="140" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#14532D"/>
+    </linearGradient>
+    <filter id="shadow" x="90" y="82" width="1260" height="736" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="24"/>
+      <feGaussianBlur stdDeviation="28"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.227451 0 0 0 0 0.164706 0 0 0 0 0.0941176 0 0 0 0.14 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_2"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_2" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="900" fill="url(#bg)"/>
+  <circle cx="205" cy="162" r="190" fill="#D98855" fill-opacity="0.12"/>
+  <circle cx="1200" cy="170" r="210" fill="#0F766E" fill-opacity="0.10"/>
+  <circle cx="1280" cy="730" r="170" fill="#C96F3B" fill-opacity="0.08"/>
+
+  <text x="128" y="104" fill="#0F766E" font-family="Georgia, serif" font-size="20" letter-spacing="4">PAPERAGENT-RAG</text>
+  <text x="128" y="164" fill="#1F2B24" font-family="Georgia, serif" font-size="62" font-weight="700">Multimodal Paper QA</text>
+  <text x="128" y="222" fill="#566660" font-family="Georgia, serif" font-size="28">Retrieval, reranking, generation, evaluation, and SFT prep for paper-style PDFs.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="120" y="250" width="1200" height="512" rx="30" fill="url(#card)"/>
+  </g>
+
+  <rect x="154" y="286" width="174" height="34" rx="17" fill="#F1E8DA"/>
+  <text x="180" y="309" fill="#4E5D56" font-family="Arial, sans-serif" font-size="16">FastAPI console</text>
+
+  <rect x="348" y="286" width="112" height="34" rx="17" fill="#F1E8DA"/>
+  <text x="379" y="309" fill="#4E5D56" font-family="Arial, sans-serif" font-size="16">ColQwen2</text>
+
+  <rect x="476" y="286" width="144" height="34" rx="17" fill="#F1E8DA"/>
+  <text x="505" y="309" fill="#4E5D56" font-family="Arial, sans-serif" font-size="16">Qwen2.5-VL</text>
+
+  <rect x="154" y="344" width="326" height="344" rx="22" fill="#FFFDF8" stroke="#E7D9C8"/>
+  <text x="184" y="386" fill="#1F2B24" font-family="Georgia, serif" font-size="28" font-weight="700">Upload Paper</text>
+  <text x="184" y="414" fill="#6B7A74" font-family="Arial, sans-serif" font-size="15">PDF -> page images -> metadata</text>
+  <rect x="184" y="446" width="266" height="54" rx="14" fill="#FFF8EE" stroke="#E5D8C6"/>
+  <text x="202" y="479" fill="#6B7A74" font-family="Arial, sans-serif" font-size="16">Document ID</text>
+  <rect x="184" y="518" width="266" height="54" rx="14" fill="#FFF8EE" stroke="#E5D8C6"/>
+  <text x="202" y="551" fill="#6B7A74" font-family="Arial, sans-serif" font-size="16">Title</text>
+  <rect x="184" y="590" width="266" height="58" rx="16" fill="url(#button)"/>
+  <text x="238" y="626" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="700">Upload and Register</text>
+
+  <rect x="504" y="344" width="402" height="344" rx="22" fill="#FFFDF8" stroke="#E7D9C8"/>
+  <text x="534" y="386" fill="#1F2B24" font-family="Georgia, serif" font-size="28" font-weight="700">Ask Questions</text>
+  <text x="534" y="414" fill="#6B7A74" font-family="Arial, sans-serif" font-size="15">Retrieve evidence pages, rerank, and answer with citations.</text>
+  <rect x="534" y="446" width="342" height="94" rx="16" fill="#FFF8EE" stroke="#E5D8C6"/>
+  <text x="556" y="485" fill="#43544D" font-family="Arial, sans-serif" font-size="17">What is the main contribution of this paper?</text>
+  <rect x="534" y="558" width="140" height="52" rx="15" fill="url(#button)"/>
+  <text x="584" y="590" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="17" font-weight="700">Ask</text>
+  <rect x="698" y="560" width="178" height="48" rx="24" fill="#F1E8DA"/>
+  <text x="726" y="590" fill="#4E5D56" font-family="Arial, sans-serif" font-size="15">MonoQwen2-VL</text>
+
+  <rect x="934" y="344" width="352" height="344" rx="22" fill="#FFFDF8" stroke="#E7D9C8"/>
+  <text x="964" y="386" fill="#1F2B24" font-family="Georgia, serif" font-size="28" font-weight="700">Evaluate and Train</text>
+  <text x="964" y="414" fill="#6B7A74" font-family="Arial, sans-serif" font-size="15">OpenAI judge scoring and Qwen2.5-VL SFT preparation.</text>
+
+  <rect x="964" y="450" width="292" height="46" rx="14" fill="#FFF8EE" stroke="#E5D8C6"/>
+  <text x="986" y="479" fill="#43544D" font-family="Arial, sans-serif" font-size="15">Import PDFVQA and synthetic QA</text>
+  <rect x="964" y="512" width="292" height="46" rx="14" fill="#FFF8EE" stroke="#E5D8C6"/>
+  <text x="986" y="541" fill="#43544D" font-family="Arial, sans-serif" font-size="15">Run judged evaluation</text>
+  <rect x="964" y="574" width="292" height="46" rx="14" fill="#FFF8EE" stroke="#E5D8C6"/>
+  <text x="986" y="603" fill="#43544D" font-family="Arial, sans-serif" font-size="15">Export train / eval JSONL</text>
+
+  <text x="156" y="735" fill="#6B7A74" font-family="Arial, sans-serif" font-size="18">Built for paper-style multimodal RAG experiments and open-source iteration.</text>
+</svg>

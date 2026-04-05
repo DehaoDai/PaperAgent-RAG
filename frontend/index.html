@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PaperAgent-RAG Console</title>
+    <link rel="stylesheet" href="/assets/app.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">PaperAgent-RAG</p>
+        <h1>Multimodal Paper QA Console</h1>
+        <p class="lede">
+          Upload a PDF, build a ColQwen2 index, optionally enable MonoQwen2-VL
+          reranking, and ask questions with Qwen2.5-VL.
+        </p>
+        <div class="status-strip">
+          <span id="healthBadge" class="badge muted">Checking service</span>
+          <span class="badge">FastAPI</span>
+          <span class="badge">ColQwen2</span>
+          <span class="badge">Qwen2.5-VL</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>1. Upload Paper</h2>
+            <p>The PDF will be rendered into page images automatically.</p>
+          </div>
+          <form id="uploadForm" class="form">
+            <label>
+              <span>Document ID</span>
+              <input name="document_id" value="paper1" required />
+            </label>
+            <label>
+              <span>Title</span>
+              <input name="title" value="Test Paper" required />
+            </label>
+            <label>
+              <span>Authors</span>
+              <input name="authors" placeholder="Comma-separated, optional" />
+            </label>
+            <label>
+              <span>Tags</span>
+              <input name="tags" placeholder="Comma-separated, optional" />
+            </label>
+            <label class="file-drop">
+              <span>Select PDF</span>
+              <input type="file" name="file" accept=".pdf" required />
+            </label>
+            <button type="submit">Upload and Register</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>2. Import PDFVQA</h2>
+            <p>Pull a slice directly from the `gigant/pdfvqa` dataset.</p>
+          </div>
+          <form id="datasetForm" class="form">
+            <label>
+              <span>Dataset Name</span>
+              <input name="dataset_name" value="gigant/pdfvqa" required />
+            </label>
+            <div class="triple">
+              <label>
+                <span>Split</span>
+                <input name="split" value="validation" required />
+              </label>
+              <label>
+                <span>Start Index</span>
+                <input type="number" name="start_index" min="0" value="0" />
+              </label>
+              <label>
+                <span>Limit</span>
+                <input type="number" name="limit" min="1" max="50" value="3" />
+              </label>
+            </div>
+            <label>
+              <span>Document ID Prefix</span>
+              <input name="document_id_prefix" value="pdfvqa" required />
+            </label>
+            <button type="submit">Import Dataset Slice</button>
+          </form>
+        </div>
+
+        <div class="panel panel-wide">
+          <div class="panel-head">
+            <h2>3. Generate Synthetic QA</h2>
+            <p>Use Qwen2.5-VL on dataset page images to produce one factoid QA pair per page.</p>
+          </div>
+          <form id="synthesisForm" class="form">
+            <div class="triple">
+              <label>
+                <span>Document IDs</span>
+                <input name="document_ids" placeholder="Comma-separated, optional" />
+              </label>
+              <label>
+                <span>Limit</span>
+                <input type="number" name="limit" min="1" max="200" value="3" />
+              </label>
+              <label>
+                <span>Questions Per Page</span>
+                <input type="number" name="questions_per_page" min="1" max="10" value="3" />
+              </label>
+            </div>
+            <div class="triple">
+              <label>
+                <span>Max New Tokens</span>
+                <input type="number" name="max_new_tokens" min="32" max="512" value="128" />
+              </label>
+              <label>
+                <span>Generator Model</span>
+                <input name="model_name" value="Qwen/Qwen2.5-VL-3B-Instruct" />
+              </label>
+              <label class="inline-check">
+                <input type="checkbox" name="overwrite_synthetic" />
+                <span>Replace Existing Synthetic QA</span>
+              </label>
+            </div>
+            <div class="triple">
+              <label class="inline-check">
+                <input type="checkbox" name="filter_groundedness" checked />
+                <span>Filter by Groundedness</span>
+              </label>
+              <label class="inline-check">
+                <input type="checkbox" name="filter_standalone" checked />
+                <span>Filter by Standalone</span>
+              </label>
+            </div>
+            <label class="wide">
+              <span>QA Generation Prompt</span>
+              <textarea name="prompt_template" rows="12">You are shown one page image extracted from a PDF.
+Generate {questions_per_page} distinct fact-based question-answer pairs for use in Retrieval-Augmented Generation (RAG).
+
+Requirements
+1. Grounded - Each answer MUST appear verbatim in the page image. Do not use outside knowledge or reasoning.
+2. Specific - Ask for a concrete item such as a date, name, section heading, figure label, table entry, or short phrase.
+3. Search-style - Word each question like something a user might type into a search engine.
+4. Standalone - Each question must be fully understandable on its own without mentioning an image, page, figure above, or document.
+5. Concise answer - Return the shortest exact text span that answers the question, preferably under 20 tokens.
+6. Diversity - The questions should target different facts from the page whenever possible.
+7. Output only the requested pairs and no commentary.
+
+Return your result in exactly this format and nothing else:
+
+Output:::
+Factoid question 1: (question 1)
+Answer 1: (answer 1)
+Factoid question 2: (question 2)
+Answer 2: (answer 2)
+...
+
+Now here is the PDF page image.
+
+Output:::</textarea>
+            </label>
+            <button type="submit">Generate Synthetic QA</button>
+          </form>
+        </div>
+
+        <div class="panel panel-wide">
+          <div class="panel-head">
+            <h2>4. Build Index</h2>
+            <p>Uses ColQwen2 + Byaldi by default.</p>
+          </div>
+          <form id="indexForm" class="form">
+            <label>
+              <span>Index Name</span>
+              <input name="index_name" value="paper_index" required />
+            </label>
+            <label>
+              <span>Retrieval Model</span>
+              <input name="model_name" value="vidore/colqwen2-v1.0" required />
+            </label>
+            <label class="inline-check">
+              <input type="checkbox" name="overwrite" checked />
+              <span>Overwrite Existing Index</span>
+            </label>
+            <button type="submit">Build Index</button>
+          </form>
+        </div>
+
+        <div class="panel panel-wide">
+          <div class="panel-head">
+            <h2>5. Ask Questions</h2>
+            <p>Enable reranking and generation models as needed.</p>
+          </div>
+          <form id="queryForm" class="form">
+            <label class="wide">
+              <span>Question</span>
+              <textarea
+                name="question"
+                rows="4"
+                required
+              >What is the main topic of this paper?</textarea>
+            </label>
+            <div class="triple">
+              <label>
+                <span>Top K</span>
+                <input type="number" name="top_k" min="1" max="10" value="3" />
+              </label>
+              <label>
+                <span>Index Name</span>
+                <input name="index_name" value="paper_index" />
+              </label>
+              <label>
+                <span>Max Images for Generation</span>
+                <input type="number" name="generation_max_images" min="1" max="8" value="1" />
+              </label>
+            </div>
+            <div class="triple">
+              <label class="inline-check">
+                <input type="checkbox" name="use_reranker" />
+                <span>Enable MonoQwen2-VL Reranking</span>
+              </label>
+              <label class="inline-check">
+                <input type="checkbox" name="use_generation_model" checked />
+                <span>Enable Qwen2.5-VL Generation</span>
+              </label>
+              <label>
+                <span>Answer Model</span>
+                <input name="generation_model_name" value="Qwen/Qwen2.5-VL-3B-Instruct" />
+              </label>
+            </div>
+            <label class="wide">
+              <span>Reranker Model</span>
+              <input name="reranker_model_name" value="lightonai/MonoQwen2-VL-v0.1" />
+            </label>
+            <button type="submit">Ask</button>
+          </form>
+        </div>
+
+        <div class="panel panel-wide">
+          <div class="panel-head">
+            <h2>6. Run Evaluation</h2>
+            <p>Generate mRAG answers, then use an OpenAI judge model to score them against GT answers.</p>
+          </div>
+          <form id="evaluationForm" class="form">
+            <div class="triple">
+              <label>
+                <span>Document IDs</span>
+                <input name="document_ids" placeholder="Comma-separated, optional" />
+              </label>
+              <label>
+                <span>QA Sources</span>
+                <input name="qa_sources" placeholder="e.g. qwen2.5-vl" />
+              </label>
+              <label>
+                <span>Example Limit</span>
+                <input type="number" name="limit" min="1" max="500" value="10" />
+              </label>
+            </div>
+            <div class="triple">
+              <label>
+                <span>Judge Model</span>
+                <input name="judge_model_name" value="gpt-5.4-mini" />
+              </label>
+              <label>
+                <span>Question Weight</span>
+                <input type="number" name="question_weight" min="0" max="1" step="0.1" value="0.5" />
+              </label>
+              <label>
+                <span>Page Weight</span>
+                <input type="number" name="page_weight" min="0" max="1" step="0.1" value="0.5" />
+              </label>
+            </div>
+            <div class="triple">
+              <label>
+                <span>Top K</span>
+                <input type="number" name="top_k" min="1" max="10" value="3" />
+              </label>
+              <label>
+                <span>Index Name</span>
+                <input name="index_name" value="paper_index" />
+              </label>
+              <label>
+                <span>Answer Model</span>
+                <input name="generation_model_name" value="Qwen/Qwen2.5-VL-3B-Instruct" />
+              </label>
+            </div>
+            <div class="triple">
+              <label class="inline-check">
+                <input type="checkbox" name="use_reranker" />
+                <span>Enable MonoQwen2-VL Reranking</span>
+              </label>
+              <label>
+                <span>Reranker Model</span>
+                <input name="reranker_model_name" value="lightonai/MonoQwen2-VL-v0.1" />
+              </label>
+              <label>
+                <span>Max Images for Generation</span>
+                <input type="number" name="generation_max_images" min="1" max="8" value="1" />
+              </label>
+            </div>
+            <button type="submit">Run Evaluation</button>
+          </form>
+        </div>
+
+        <div class="panel panel-wide">
+          <div class="panel-head">
+            <h2>Results</h2>
+            <p>View the answer, debug metadata, and evidence page images.</p>
+          </div>
+          <div id="answerBox" class="answer-box empty">Results will appear here.</div>
+          <pre id="debugBox" class="debug-box">Waiting for a request...</pre>
+          <div id="evidenceGrid" class="evidence-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/assets/app.js"></script>
+  </body>
+  </html>

@@ -1,0 +1,8 @@
+byaldi>=0.0.5
+fastapi>=0.115.0
+openai>=1.0.0
+pymupdf>=1.24.0
+pydantic>=2.8.0
+python-dotenv>=1.0.1
+python-multipart>=0.0.9
+uvicorn>=0.30.0

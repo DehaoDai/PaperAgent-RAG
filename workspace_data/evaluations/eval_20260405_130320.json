@@ -1,0 +1,221 @@
+{
+  "aggregate": {
+    "example_count": 10,
+    "page_count": 1,
+    "mean_raw_score": 2.9,
+    "mean_normalized_score": 0.475,
+    "page_balanced_normalized_score": 0.475,
+    "weighted_normalized_score": 0.475,
+    "question_weight": 0.5,
+    "page_weight": 0.5,
+    "page_summaries": [
+      {
+        "document_id": "pdfvqa-debug-validation-0",
+        "title": "gigant/pdfvqa validation sample 0",
+        "page_number": 1,
+        "question_count": 10,
+        "mean_raw_score": 2.9,
+        "mean_normalized_score": 0.475
+      }
+    ]
+  },
+  "examples": [
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "On the top of this page, is there a figure?",
+      "reference_answer": "False",
+      "predicted_answer": "Insufficient evidence.",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": false,
+      "accurate": false,
+      "factual": false,
+      "raw_score": 1,
+      "normalized_score": 0.0,
+      "rationale": "The reference answer is False, while the candidate answer does not provide the needed boolean judgment and instead says “Insufficient evidence.” This is not a correct or factual match to the reference.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "Confirm if there is 'abstract' in this page.",
+      "reference_answer": "True",
+      "predicted_answer": "Yes, there is an abstract in this page.",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": true,
+      "accurate": true,
+      "factual": true,
+      "raw_score": 5,
+      "normalized_score": 1.0,
+      "rationale": "The candidate answer matches the reference exactly in meaning, confirming that an abstract is present on the page.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "Is there a 'background' in this page?",
+      "reference_answer": "True",
+      "predicted_answer": "Yes, there is a 'background' in this page.",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": true,
+      "accurate": true,
+      "factual": true,
+      "raw_score": 5,
+      "normalized_score": 1.0,
+      "rationale": "The candidate answer matches the reference answer’s meaning exactly by affirming that there is a background on the page.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "When you check the top of this page, what information can you get?",
+      "reference_answer": "Acute transfusion-related abdominal injury\nin trauma patients: a case report\n",
+      "predicted_answer": "The top of the page provides the following information:\n- The title \"Acute transfusion-related abdominal injury in trauma patients: a case report\"\n- The authors' names: P. Michel, D. Wähnert, M. Freistühler, M. G. Laukoetter, S. Rehberg, M. J. Raschke, and P. García\n- The journal name: Journal of Medical Case Reports\n- The DOI number: 10.1186/s13256-016-1073-4\n- The publication date: 2016\n- The volume and issue numbers: 10.294\n- The page number: 1\n- The publisher's logo: BioMed Central",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": true,
+      "accurate": true,
+      "factual": true,
+      "raw_score": 5,
+      "normalized_score": 1.0,
+      "rationale": "The candidate correctly includes the title shown at the top of the page, which matches the reference answer, and the additional details are consistent with a journal article header.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "What is the left section about?",
+      "reference_answer": "Abstract\n",
+      "predicted_answer": "The left section of the image is titled \"Background\" and discusses secondary abdominal compartment syndrome (ACS) in trauma patients. It mentions that ACS is a well-known complication in critically ill patients characterized by a potentially life-threatening elevation of intra-abdominal pressure (IAP) and subsequent deterioration of organ function. The text also references the World Society of the Abdominal Compartment Syndrome's definition of ACS as sustained IAP greater than 20 mmHg, which can be measured intraperitoneally via a urinary catheter. Additionally, it notes that ACS is differentiated from primary ACS, which is defined by an intra-abdominal bleeding process directly increasing the IAP.",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": false,
+      "accurate": false,
+      "factual": false,
+      "raw_score": 1,
+      "normalized_score": 0.0,
+      "rationale": "The reference answer says the left section is simply “Abstract,” but the candidate invents detailed content about abdominal compartment syndrome that is not supported by the reference.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "What is the topic of bottom left section?",
+      "reference_answer": "Background\n",
+      "predicted_answer": "The topic of the bottom left section is \"Background.\"",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": true,
+      "accurate": true,
+      "factual": true,
+      "raw_score": 5,
+      "normalized_score": 1.0,
+      "rationale": "The candidate answer matches the reference exactly by identifying the bottom left section as “Background.”",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "When you check the top left of this page, what information can you get?",
+      "reference_answer": "Abstract\n",
+      "predicted_answer": "The top left of the page provides the following information:\n- The title \"Journal of Medical Case Reports\"\n- The DOI number \"10.1186/s13256-016-1073-4\"\n- The journal's website URL \"http://www.mdpi.com/journal/mcr\"",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": false,
+      "accurate": false,
+      "factual": false,
+      "raw_score": 1,
+      "normalized_score": 0.0,
+      "rationale": "The reference answer says the top left shows “Abstract,” but the candidate lists a journal title, DOI, and URL instead. This does not match the reference and appears incorrect.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "Can you describe the main topic of the bottom section?",
+      "reference_answer": "Background\n",
+      "predicted_answer": "The main topic of the bottom section is the case report of an acute secondary abdominal compartment syndrome in a trauma patient who developed this condition rapidly after massive transfusion of blood products and moderate crystalloid resuscitation.",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": false,
+      "accurate": false,
+      "factual": false,
+      "raw_score": 1,
+      "normalized_score": 0.0,
+      "rationale": "The reference answer says the bottom section is “Background,” while the candidate describes a specific case report about abdominal compartment syndrome, which is not supported by the reference.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "What does the first section include in this page?",
+      "reference_answer": "Acute transfusion-related abdominal injury\nin trauma patients: a case report\n",
+      "predicted_answer": "The first section includes the title \"Acute transfusion-related abdominal injury in trauma patients: a case report\" by P. Michel et al., along with the authors' affiliations and contact information.",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": true,
+      "accurate": true,
+      "factual": true,
+      "raw_score": 4,
+      "normalized_score": 0.75,
+      "rationale": "The candidate correctly identifies the first section as containing the article title, which matches the reference. It adds author and affiliation details that are plausible but not supported by the reference, so it is mostly correct but includes unsupported specifics.",
+      "judge_model_name": "gpt-5.4-mini"
+    },
+    {
+      "document_id": "pdfvqa-debug-validation-0",
+      "title": "gigant/pdfvqa validation sample 0",
+      "page_number": 1,
+      "question": "What is the last section in this page?",
+      "reference_answer": "Background\n",
+      "predicted_answer": "The last section in this page is \"Keywords\".",
+      "evidence_page_numbers": [
+        1
+      ],
+      "correct": false,
+      "accurate": false,
+      "factual": false,
+      "raw_score": 1,
+      "normalized_score": 0.0,
+      "rationale": "The reference answer says the last section is \"Background,\" but the candidate says \"Keywords,\" which conflicts with the provided reference.",
+      "judge_model_name": "gpt-5.4-mini"
+    }
+  ],
+  "request": {
+    "document_ids": null,
+    "limit": 10,
+    "qa_sources": null,
+    "index_name": "paper_index",
+    "top_k": 3,
+    "use_reranker": false,
+    "reranker_model_name": "lightonai/MonoQwen2-VL-v0.1",
+    "rerank_candidate_multiplier": 3,
+    "use_generation_model": true,
+    "generation_model_name": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "generation_max_new_tokens": 256,
+    "generation_max_images": 1,
+    "judge_model_name": "gpt-5.4-mini",
+    "question_weight": 0.5,
+    "page_weight": 0.5
+  }
+}
